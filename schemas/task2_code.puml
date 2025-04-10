@@ -1,0 +1,50 @@
+@startuml DataProcessor - Code Level (UML Classes)
+
+' === Основные классы обработчика ===
+class KafkaConsumerService {
+  + void listen(String message)
+  + void processRawEvent(SensorDataDTO dto)
+}
+
+class SensorDataDTO {
+  - String sensorId
+  - double value
+  - long timestamp
+  + getters/setters()
+}
+
+class SensorDataValidator {
+  + boolean isValid(SensorDataDTO dto)
+  - boolean validateRange(double value)
+}
+
+class DataTransformer {
+  + SensorData transform(SensorDataDTO dto)
+}
+
+class SensorData {
+  - UUID id
+  - double normalizedValue
+  - String unit
+  + calculateHash() : String
+}
+
+
+class SensorDataRepository {
+  + @Query findBySensorId(String sensorId)
+  + void saveProcessedData(ProcessedEvent event)
+}
+
+' === Связи между классами ===
+KafkaConsumerService --> SensorDataDTO : Создает
+KafkaConsumerService --> SensorDataValidator : Использует
+SensorDataValidator --> SensorDataDTO : Проверяет
+KafkaConsumerService --> DataTransformer : Вызывает
+DataTransformer --> SensorData : Создает
+DataTransformer --> SensorDataDTO : Принимает
+SensorDataRepository --> SensorData : Принимает
+
+
+
+
+@enduml
