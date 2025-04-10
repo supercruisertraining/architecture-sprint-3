@@ -61,15 +61,37 @@ schemas/rendered/task1_context.png
 
 **Диаграмма контейнеров (Containers)**
 
-Добавьте диаграмму.
+Текст диаграммы лежит в файле:
+```commandline
+schemas/task2_containers.md
+```
+Диаграмма в формате картинки png лежит в файле:
+```commandline
+schemas/rendered/task2_containers.png
+```
 
 **Диаграмма компонентов (Components)**
 
-Добавьте диаграмму для каждого из выделенных микросервисов.
+Текст диаграммы лежит в файле:
+```commandline
+schemas/task2_components.md
+```
+Диаграмма в формате картинки png лежит в файле:
+```commandline
+schemas/rendered/task2_components.png
+```
 
 **Диаграмма кода (Code)**
 
-Добавьте одну диаграмму или несколько.
+Текст диаграммы лежит в файле:
+```commandline
+schemas/task2_code.puml
+```
+Диаграмма в формате картинки png лежит в файле:
+```commandline
+schemas/rendered/task2_code.png
+```
+
 
 # Задание 3. Разработка ER-диаграммы
 
