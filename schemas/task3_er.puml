@@ -1,0 +1,74 @@
+@startuml Умный дом - ER-диаграмма PostgreSQL
+
+' === Сущности ===
+entity customers {
+  * id : uuid <<PK>>
+  --
+  * name : varchar(100)
+  * email : varchar(255) <<unique>>
+  * phone : varchar(20)
+  * login : varchar(50) <<unique>>
+  * password: varchar(100)
+  * created_at : timestamp
+}
+
+entity homes {
+  * id : uuid <<PK>>
+  --
+  * address : text <<unique>>
+  * area : numeric(5,2)
+  * timezone : varchar(50)
+}
+
+entity equipment {
+  * id : uuid <<PK>>
+  --
+  * type : varchar(50) <<enum>>
+  * model : varchar(100)
+  * manufacturer : varchar(100)
+  * max_value : numeric
+  * min_value : numeric
+}
+
+entity home_equipment {
+  * id : uuid <<PK>>
+  --
+  * home_id : uuid <<FK>>
+  * equipment_id : uuid <<FK>>
+  * installed_at : date
+  * status : varchar(20) <<enum>>
+  --
+  ++ (home_id, equipment_id) <<unique>>
+}
+
+entity customers_homes {
+  * id : uuid <<PK>>
+  --
+  * customer_id : uuid <<FK>>
+  * home_id : uuid <<FK>>
+  * role : varchar(30) <<enum>>
+  * added_at : timestamp
+  --
+  ++ (customer_id, home_id) <<unique>>
+}
+
+entity sensors_data_history {
+  * id : bigserial <<PK>>
+  --
+  * home_equipment_id : uuid <<FK>>
+  * value : numeric(10,2)
+  * recorded_at : timestamp
+  * is_anomaly : boolean
+  --
+  * recorded_at_desc <<index>>
+}
+
+' === Связи ===
+customers ||--o{ customers_homes
+homes ||--o{ customers_homes
+homes ||--o{ home_equipment
+equipment ||--o{ home_equipment
+home_equipment }o--|| sensors_data_history
+
+
+@enduml
